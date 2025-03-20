@@ -165,6 +165,9 @@ footer{
         padding: 0;
         a{
             font-size: 1.2em;
+            &:hover{
+                color: $primary-color;
+            }
         }
         .price{
             padding-bottom: 20px;
@@ -172,6 +175,14 @@ footer{
             span{
                 color: rgba($primary-black , 0.5);
             }
+        }
+    }
+}
+
+.product-detail{
+    .mySwiper{
+        .swiper-slide{
+            height: auto !important;
         }
     }
 }
