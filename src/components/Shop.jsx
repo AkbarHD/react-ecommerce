@@ -73,7 +73,7 @@ const Shop = () => {
                 </div>
               </div>
             </div>
-
+ 
             {/* products */}
             <div className="col-md-9">
               <div className="row pb-5">

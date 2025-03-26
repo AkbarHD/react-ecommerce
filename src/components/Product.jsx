@@ -4,15 +4,12 @@ import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Thumbs, FreeMode, Navigation } from 'swiper/modules'
 import { Rating } from 'react-simple-star-rating' // simple rating star
-
 import Tab from 'react-bootstrap/Tab' // dari react bootstrap
 import Tabs from 'react-bootstrap/Tabs'
-
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
-
 import ProductImgOne from '../assets/images/Mens/eight.jpg'
 import ProductImgTwo from '../assets/images/Mens/six.jpg'
 import ProductImgThree from '../assets/images/Mens/seven.jpg'
@@ -39,6 +36,7 @@ const Product = () => {
           </nav>
 
           <div className="row">
+            {/* ------ column 1  ------------*/}
             <div className="col-md-5">
               <div className="row">
                 {/* ------ column 1  ------------*/}
@@ -125,6 +123,7 @@ const Product = () => {
               </div>
             </div>
 
+            {/* ======= column 2 ========*/}
             <div className="col-md-7">
               <h2>Dummy Product Title</h2>
               <div className="d-flex">
@@ -191,3 +190,4 @@ const Product = () => {
 }
 
 export default Product
+
