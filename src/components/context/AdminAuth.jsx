@@ -7,8 +7,9 @@ export const AdminAuthProvider = ({children}) => {
     const adminInfo = localStorage.getItem('adminInfo')
     const [user, setUser] = useState(adminInfo ? JSON.parse(adminInfo) : null)
 
-    const login = ()  => {
-        setUser(user);
+    const login = (adminInfo)  => {
+        localStorage.setItem('adminInfo', JSON.stringify(adminInfo)); // Simpan data admin
+        setUser(adminInfo); // Perbarui state user
     }
 
     const logout = () => {
@@ -21,6 +22,6 @@ export const AdminAuthProvider = ({children}) => {
          login,
          logout
      }}>
-         {children}
+         {children} 
      </AdminAuthContext.Provider>
 }

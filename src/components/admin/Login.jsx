@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react';
 import Layout from '../common/Layout'
 import { useForm } from 'react-hook-form'
 import { apiUrl } from '../common/http'
@@ -7,49 +7,55 @@ import { useNavigate } from 'react-router-dom'
 import { AdminAuthContext } from '../context/AdminAuth'
 
 const Login = () => {
+  const { login, user } = useContext(AdminAuthContext);
+    // utk redirect
+    const navigate = useNavigate()
 
-  const {login} = useContext(AdminAuthContext)
+  useEffect(() => {
+    if (user) {
+      navigate('/admin/dashboard')
+    }
+  }, [user, navigate])
 
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm()
 
-  // utk redirect
-  const navigate = useNavigate();
+
 
   const onSubmit = async (data) => {
     console.log(data)
 
     const res = await fetch(`${apiUrl}/admin/login`, {
       method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
+      headers: {
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
-    }).then(res => res.json())
-    .then(result => {
-      console.log(result)
-
-      if(result.status === 200){
-         const adminInfo = {
-          token: result.token,
-          id: result.id,
-          name: result.name,
-         }
-
-         localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
-
-        //  tambahkan ini agar bisa masuk ke dashboard, karena kita mnggnkn pencegahan di app.jsx   <AdminRequireAuth>
-         login(adminInfo);
-
-         navigate('/admin/dashboard')
-      }else{
-         toast.error(result.message);
-      }
+      body: JSON.stringify(data),
     })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result)
+
+        if (result.status === 200) {
+          const adminInfo = {
+            token: result.token,
+            id: result.id,
+            name: result.name,
+          }
+
+          localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
+
+          //  tambahkan ini agar bisa masuk ke dashboard, karena kita mnggnkn pencegahan di app.jsx   <AdminRequireAuth>
+          login(adminInfo)
+
+          navigate('/admin/dashboard')
+        } else {
+          toast.error(result.message)
+        }
+      })
   }
 
   return (
