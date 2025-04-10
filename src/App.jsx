@@ -9,6 +9,7 @@ import Login from './components/admin/Login'
 import { ToastContainer, toast } from 'react-toastify' // toastify
 import Dashboard from './components/admin/Dashboard'
 import { AdminRequireAuth } from './components/admin/AdminRequireAuth'
+import {default as ShowCategories} from './components/admin/category/Show'
 
 function App() {
   return (
@@ -25,6 +26,12 @@ function App() {
             // BUAT PROTECTED ROUTE
             <AdminRequireAuth>
               <Dashboard />
+            </AdminRequireAuth>
+          } />
+          <Route path="/admin/categories" element={
+            // BUAT PROTECTED ROUTE
+            <AdminRequireAuth>
+              <ShowCategories />
             </AdminRequireAuth>
           } />
         </Routes>

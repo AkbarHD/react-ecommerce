@@ -23,8 +23,6 @@ const Login = () => {
     formState: { errors },
   } = useForm()
 
-
-
   const onSubmit = async (data) => {
     console.log(data)
 
@@ -49,7 +47,7 @@ const Login = () => {
           localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
 
           //  tambahkan ini agar bisa masuk ke dashboard, karena kita mnggnkn pencegahan di app.jsx   <AdminRequireAuth>
-          login(adminInfo)
+          login(adminInfo) // login dpt dari AdminAuthContext
 
           navigate('/admin/dashboard')
         } else {
