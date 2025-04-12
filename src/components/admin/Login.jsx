@@ -70,7 +70,7 @@ const Login = () => {
                   </label>
                   <input
                     // di dlm input
-                    {...register('email', {
+                    {...register('email', { // akan di handle sama ini utk namenya
                       required: 'The email field is required',
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -92,7 +92,7 @@ const Login = () => {
                   </label>
                   <input
                     // di dlm input
-                    {...register('password', {
+                    {...register('password', { // akan di handle sama ini utk namenya
                       required: 'The password field is required',
                     })}
                     type="password"

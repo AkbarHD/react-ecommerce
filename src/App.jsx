@@ -9,7 +9,9 @@ import Login from './components/admin/Login'
 import { ToastContainer, toast } from 'react-toastify' // toastify
 import Dashboard from './components/admin/Dashboard'
 import { AdminRequireAuth } from './components/admin/AdminRequireAuth'
-import {default as ShowCategories} from './components/admin/category/Show'
+import { default as ShowCategories } from './components/admin/category/Show'
+import { default as CreateCategories } from './components/admin/category/Create'
+import { default as EditCategories } from './components/admin/category/Edit'
 
 function App() {
   return (
@@ -22,18 +24,44 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/dashboard" element={
-            // BUAT PROTECTED ROUTE
-            <AdminRequireAuth>
-              <Dashboard />
-            </AdminRequireAuth>
-          } />
-          <Route path="/admin/categories" element={
-            // BUAT PROTECTED ROUTE
-            <AdminRequireAuth>
-              <ShowCategories />
-            </AdminRequireAuth>
-          } />
+          <Route
+            path="/admin/dashboard"
+            element={
+              // BUAT PROTECTED ROUTE
+              <AdminRequireAuth>
+                <Dashboard />
+              </AdminRequireAuth>
+            }
+          />
+          <Route
+            path="/admin/categories"
+            element={
+              // BUAT PROTECTED ROUTE
+              <AdminRequireAuth>
+                <ShowCategories />
+              </AdminRequireAuth>
+            }
+          />
+
+          <Route
+            path="/admin/categories/create"
+            element={
+              // BUAT PROTECTED ROUTE
+              <AdminRequireAuth>
+                <CreateCategories />
+              </AdminRequireAuth>
+            }
+          />
+
+          <Route
+            path="/admin/categories/edit/:id"
+            element={
+              // BUAT PROTECTED ROUTE
+              <AdminRequireAuth>
+                <EditCategories />
+              </AdminRequireAuth>
+            }
+          />
         </Routes>
       </BrowserRouter>
 
