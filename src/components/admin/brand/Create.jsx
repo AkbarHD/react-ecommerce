@@ -1,32 +1,33 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Layout from '../../common/Layout'
 import { Link, useNavigate } from 'react-router-dom'
 import Sidebar from '../../common/Sidebar'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { apiUrl, adminToken } from '../../common/http'
+import { adminToken, apiUrl } from '../../common/http'
 import { toast } from 'react-toastify'
 
 const Create = () => {
   const [disabled, setDisabled] = useState(false)
-  const navigate = useNavigate();
-  
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm()
 
-  const saveCategory = async (data) => {
+  const saveBrand = async (data) => {
     setDisabled(true)
-    console.log(data) 
+    console.log(data)
 
-    const res = await fetch(`${apiUrl}/categories`, {
+    const res = await fetch(`${apiUrl}/brands`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${adminToken()}`,
-      },  
+        Accept: 'application/json',
+        Authorization: `Bearer ${adminToken()}`,
+      },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
@@ -34,22 +35,21 @@ const Create = () => {
         console.log(result)
         setDisabled(false)
         if (result.status === 200) {
-           toast.success(result.message)
-          navigate('/admin/categories')
+          toast.success(result.message)
+          navigate('/admin/brands')
         } else {
           toast.error(result.message)
           console.log('something went wrong')
         }
       })
   }
-  
   return (
     <Layout>
       <div className="container">
         <div className="row">
           <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h4 pb-0 mb-0">Create Category</h4>
-            <Link to="/admin/categories" className="btn btn-primary">
+            <h4 className="h4 pb-0 mb-0">Create Brands</h4>
+            <Link to="/admin/brands" className="btn btn-primary">
               Back
             </Link>
           </div>
@@ -59,7 +59,7 @@ const Create = () => {
           </div>
 
           <div className="col-md-9">
-            <form onSubmit={handleSubmit(saveCategory)}>
+            <form onSubmit={handleSubmit(saveBrand)}>
               <div className="card shadow">
                 <div className="card-body p-4">
                   <div className="mb-3">
@@ -67,7 +67,8 @@ const Create = () => {
                       Name
                     </label>
                     <input
-                      {...register('name', { // akan di handle sama ini utk namenya
+                      {...register('name', {
+                        // akan di handle sama ini utk namenya
                         required: 'The name field is required',
                         minLength: {
                           value: 3,
@@ -89,7 +90,8 @@ const Create = () => {
                       Status
                     </label>
                     <select
-                      {...register('status', { // akan di handle sama ini utk namenya
+                      {...register('status', {
+                        // akan di handle sama ini utk namenya
                         required: 'The name field is required',
                       })}
                       className={`form-select ${errors.status && 'is-invalid'}`}
@@ -104,7 +106,11 @@ const Create = () => {
                       </span>
                     )}
                   </div>
-                  <button disabled={disabled} type="submit" className="btn btn-primary">
+                  <button
+                    disabled={disabled}
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Save
                   </button>
                 </div>

@@ -1,32 +1,60 @@
 import React, { useState } from 'react'
 import Layout from '../../common/Layout'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Sidebar from '../../common/Sidebar'
-import { useForm } from 'react-hook-form'
-import { apiUrl, adminToken } from '../../common/http'
+import { adminToken, apiUrl } from '../../common/http'
 import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
 
-const Create = () => {
+const Edit = () => {
   const [disabled, setDisabled] = useState(false)
-  const navigate = useNavigate();
-  
+  const [brand, setBrand] = useState([])
+  const navigate = useNavigate()
+  const params = useParams()
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: async () => {
+      const res = await fetch(`${apiUrl}/brands/${params.id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${adminToken()}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log(result)
+          if (result.status === 200) {
+            console.log(result)
+            setBrand(result.data)
+            reset({
+              name: result.data.name,
+              status: result.data.status,
+            })
+          } else {
+            toast.error(result.message)
+            console.log('something went wrong')
+          }
+        })
+    },
+  })
 
-  const saveCategory = async (data) => {
+  const updateBrand = async (data) => {
     setDisabled(true)
-    console.log(data) 
+    console.log(data)
 
-    const res = await fetch(`${apiUrl}/categories`, {
-      method: 'POST',
+    const res = await fetch(`${apiUrl}/brands/${params.id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${adminToken()}`,
-      },  
+        Accept: 'application/json',
+        Authorization: `Bearer ${adminToken()}`,
+      },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
@@ -34,22 +62,22 @@ const Create = () => {
         console.log(result)
         setDisabled(false)
         if (result.status === 200) {
-           toast.success(result.message)
-          navigate('/admin/categories')
+          toast.success(result.message)
+          navigate('/admin/brands')
         } else {
           toast.error(result.message)
           console.log('something went wrong')
         }
       })
   }
-  
+
   return (
     <Layout>
       <div className="container">
         <div className="row">
           <div className="d-flex justify-content-between mt-5 pb-3">
-            <h4 className="h4 pb-0 mb-0">Create Category</h4>
-            <Link to="/admin/categories" className="btn btn-primary">
+            <h4 className="h4 pb-0 mb-0">Edit Brands</h4>
+            <Link to="/admin/brands" className="btn btn-primary">
               Back
             </Link>
           </div>
@@ -59,7 +87,7 @@ const Create = () => {
           </div>
 
           <div className="col-md-9">
-            <form onSubmit={handleSubmit(saveCategory)}>
+            <form onSubmit={handleSubmit(updateBrand)}>
               <div className="card shadow">
                 <div className="card-body p-4">
                   <div className="mb-3">
@@ -67,7 +95,8 @@ const Create = () => {
                       Name
                     </label>
                     <input
-                      {...register('name', { // akan di handle sama ini utk namenya
+                      {...register('name', {
+                        // akan di handle sama ini utk namenya
                         required: 'The name field is required',
                         minLength: {
                           value: 3,
@@ -89,7 +118,8 @@ const Create = () => {
                       Status
                     </label>
                     <select
-                      {...register('status', { // akan di handle sama ini utk namenya
+                      {...register('status', {
+                        // akan di handle sama ini utk namenya
                         required: 'The name field is required',
                       })}
                       className={`form-select ${errors.status && 'is-invalid'}`}
@@ -104,8 +134,12 @@ const Create = () => {
                       </span>
                     )}
                   </div>
-                  <button disabled={disabled} type="submit" className="btn btn-primary">
-                    Save
+                  <button
+                    disabled={disabled}
+                    type="submit"
+                    className="btn btn-primary"
+                  >
+                    Update
                   </button>
                 </div>
               </div>
@@ -117,4 +151,4 @@ const Create = () => {
   )
 }
 
-export default Create
+export default Edit
