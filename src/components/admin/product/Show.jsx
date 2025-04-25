@@ -104,7 +104,9 @@ const Show = () => {
                           // key={brand.id} // key harus ada di dalam map, jika tidak ada akan muncul warning di console
                           <tr key={`product-${product.id}`}>
                             <td>{product.id}</td>
-                            <td>{product.image}</td>
+                            <td>
+                              <img src={product.image_url} alt={product.title} width={50} />
+                            </td>
                             <td>{product.title}</td>
                             <td>{product.price}</td>
                             <td>{product.qty}</td>

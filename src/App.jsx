@@ -114,7 +114,7 @@ function App() {
           />
 
           <Route
-            path="/admin/product/create"
+            path="/admin/products/create"
             element={
               // BUAT PROTECTED ROUTE
               <AdminRequireAuth>
