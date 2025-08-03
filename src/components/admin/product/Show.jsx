@@ -27,7 +27,7 @@ const Show = () => {
           setLoader(false)
           console.log(result) // utk cek di console datanya ada atau tidak
           if (result.status === 200) {
-            setProducts(result.data)
+            setProducts(result.data) // buat ngasih ke state products
           } else {
             console.log('something went wrong')
           }
